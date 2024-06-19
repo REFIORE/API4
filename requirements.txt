@@ -1,15 +1,2 @@
-APScheduler==3.6.3
-certifi==2024.2.2
-cffi==1.16.0
-charset-normalizer==3.3.2
-cryptography==42.0.5
-idna==3.6
-pycparser==2.22
 python-telegram-bot==13.2
-pytz==2024.1
 requests==2.31.0
-six==1.16.0
-telegram==0.0.1
-tornado==6.4
-tzlocal==5.2
-urllib3==2.2.1

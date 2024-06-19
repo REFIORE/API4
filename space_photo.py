@@ -2,6 +2,7 @@ import requests
 import os
 from urllib.parse import urlparse, unquote
 from datetime import datetime
+from dotenv import load_dotenv
 
 
 def download(url, filepath, params=None):
@@ -30,23 +31,22 @@ def get_extention_file(url):
 
 
 def get_apod_images():
-    payload = {'api_key':'TYtCYyItU9WPKlFeAJbQuB6DOFefGbcp6g72zZCF', 'count': 30}
+    count=30
+    payload = {'api_key':os.environ['NASA_TOKEN'], 'count': count}
     response = requests.get('https://api.nasa.gov/planetary/apod', params=payload)
     links=response.json()
     for link in links:
         if link.get('media_type')=='image':
             if link.get('hdurl'):
-                nasa_image=link['hdurl']
-            else:
-                nasa_image=link['url']
-            print(nasa_image)
+                nasa_image=link['hdurl'] or link['url']
             filename, extention=get_extention_file(nasa_image)
             path = os.path.join('images', f'{filename}{extention}')
             download(nasa_image, path)
 
 
 def get_epic_image():
-    payload = {'api_key':'TYtCYyItU9WPKlFeAJbQuB6DOFefGbcp6g72zZCF', 'count': 5}
+    count=5
+    payload = {'api_key':os.environ['NASA_TOKEN'], 'count': count}
     response = requests.get('https://api.nasa.gov/EPIC/api/natural', params=payload)
     images=response.json()
     for image in images:
@@ -57,6 +57,7 @@ def get_epic_image():
         download(link, f'images/{name}.png', payload)
 
 def main():
+    load_dotenv()
     fetch_spacex_last_launch()
     get_apod_images()
     get_epic_image()
