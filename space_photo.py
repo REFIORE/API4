@@ -43,7 +43,7 @@ def get_apod_images(nasa_token):
             download_images(nasa_image, path)
 
 
-def get_epic_image(nasa_token):
+def get_epic_images(nasa_token):
     count=5
     payload = {'api_key': nasa_token, 'count': count}
     response = requests.get('https://api.nasa.gov/EPIC/api/natural', params=payload)
@@ -61,7 +61,7 @@ def main():
     nasa_token = os.environ['NASA_TOKEN']
     fetch_spacex_last_launch()
     get_apod_images(nasa_token)
-    get_epic_image(nasa_token)
+    get_epic_images(nasa_token)
 
 
 if __name__ == '__main__':
