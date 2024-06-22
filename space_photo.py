@@ -36,9 +36,8 @@ def get_apod_images(nasa_token):
     response = requests.get('https://api.nasa.gov/planetary/apod', params=payload)
     links=response.json()
     for link in links:
-        if link.get('media_type')=='image':
-            if link.get('hdurl'):
-                nasa_image=link['hdurl'] or link['url']
+        if link.get('media_type')=='image' and link.get('hdurl'):
+            nasa_image=link['hdurl'] or link['url']
             filename, extention=get_extention_file(nasa_image)
             path = os.path.join('images', f'{filename}{extention}')
             download_images(nasa_image, path)
