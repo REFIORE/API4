@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 
 def main():
     load_dotenv()
-    sleep=14400
+    post_pause=14400
     chat_id = os.environ['TG_CHAT_ID']
     tg_token = os.environ['TG_TOKEN']
     bot = telegram.Bot(token=tg_token)
@@ -21,7 +21,7 @@ def main():
             file_path=os.path.join(folder, file)
             with open(file_path, 'rb') as f:
                 bot.send_document(chat_id=chat_id, document=f)
-            sleep(sleep)
+            sleep(post_pause)
 
 
 if __name__ == '__main__':
