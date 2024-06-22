@@ -5,7 +5,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 
 
-def download(url, filepath, params=None):
+def download_images(url, filepath, params=None):
     response = requests.get(url, params=params)
     response.raise_for_status()
     os.makedirs("images", exist_ok=True)
