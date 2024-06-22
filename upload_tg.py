@@ -1,15 +1,16 @@
 import telegram
 import os
-import argparse
 from os import listdir
 import random
 from time import sleep
+from dotenv import load_dotenv
 
 
 
 def main():
+    load_dotenv()
     sleep=14400
-    chat_id = os.getenv['CHAT_ID']
+    chat_id = os.environ['CHAT_ID']
     tg_token = os.environ['TG_TOKEN']
     bot = telegram.Bot(token=tg_token)
     while True:
