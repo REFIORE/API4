@@ -19,7 +19,7 @@ def fetch_spacex_last_launch():
     links=response.json()['links']['flickr']['original']
 
     for number, link in enumerate(links):
-        download(link, f'images/spacex{number}.jpg')
+        download_images(link, f'images/spacex{number}.jpg')
 
 
 def get_extention_file(url):
@@ -30,9 +30,9 @@ def get_extention_file(url):
     return filename, extention
 
 
-def get_apod_images():
+def get_apod_images(nasa_token):
     count=30
-    payload = {'api_key':os.environ['NASA_TOKEN'], 'count': count}
+    payload = {'api_key': nasa_token, 'count': count}
     response = requests.get('https://api.nasa.gov/planetary/apod', params=payload)
     links=response.json()
     for link in links:
@@ -41,12 +41,12 @@ def get_apod_images():
                 nasa_image=link['hdurl'] or link['url']
             filename, extention=get_extention_file(nasa_image)
             path = os.path.join('images', f'{filename}{extention}')
-            download(nasa_image, path)
+            download_images(nasa_image, path)
 
 
-def get_epic_image():
+def get_epic_image(nasa_token):
     count=5
-    payload = {'api_key':os.environ['NASA_TOKEN'], 'count': count}
+    payload = {'api_key': nasa_token, 'count': count}
     response = requests.get('https://api.nasa.gov/EPIC/api/natural', params=payload)
     images=response.json()
     for image in images:
@@ -54,13 +54,15 @@ def get_epic_image():
         name=image['image']
         date_image = datetime.fromisoformat(date).strftime("%Y/%m/%d")
         link=f'https://api.nasa.gov/EPIC/archive/natural/{date_image}/png/{name}.png'
-        download(link, f'images/{name}.png', payload)
+        download_images(link, f'images/{name}.png', payload)
+
 
 def main():
     load_dotenv()
+    nasa_token = os.environ['NASA_TOKEN']
     fetch_spacex_last_launch()
-    get_apod_images()
-    get_epic_image()
+    get_apod_images(nasa_token)
+    get_epic_image(nasa_token)
 
 
 if __name__ == '__main__':
