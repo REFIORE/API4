@@ -19,7 +19,7 @@ def fetch_spacex_last_launch():
     links=response.json()['links']['flickr']['original']
 
     for number, link in enumerate(links):
-        download_images(link, f'images/spacex{number}.jpg')
+        download_image(link, f'images/spacex{number}.jpg')
 
 
 def get_extention_file(url):
@@ -38,9 +38,9 @@ def get_apod_images(nasa_token):
     for link in links:
         if link.get('media_type')=='image' and link.get('hdurl'):
             nasa_image=link['hdurl'] or link['url']
-            filename, extention=get_extention_file(nasa_image)
-            path = os.path.join('images', f'{filename}{extention}')
-            download_images(nasa_image, path)
+        filename, extention=get_extention_file(nasa_image)
+        path = os.path.join('images', f'{filename}{extention}')
+        download_image(nasa_image, path)
 
 
 def get_epic_images(nasa_token):
@@ -53,7 +53,7 @@ def get_epic_images(nasa_token):
         name=image['image']
         date_image = datetime.fromisoformat(date).strftime("%Y/%m/%d")
         link=f'https://api.nasa.gov/EPIC/archive/natural/{date_image}/png/{name}.png'
-        download_images(link, f'images/{name}.png', payload)
+        download_image(link, f'images/{name}.png', payload)
 
 
 def main():
